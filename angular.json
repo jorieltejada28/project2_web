@@ -5,7 +5,16 @@
   "projects": {
     "client": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "flat": false,
+          "type": "component"
+        },
+        "@schematics/angular:service": {
+          "flat": true,
+          "type": "service"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -88,5 +97,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
