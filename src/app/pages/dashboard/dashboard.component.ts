@@ -25,6 +25,12 @@ export class DashboardComponent {
   public chartLabel = 'User Registrations';
   public chartColor = '#d926aa'; // Secondary Pink
 
+  public summaryStats = [
+    { label: 'Wallet Balance', value: '$0.00', colorClass: 'text-secondary' },
+    { label: 'Total Savings', value: '$1,000.00', colorClass: 'text-accent' },
+    // You can easily add more here later, like 'Total Debt' or 'Monthly Spend'
+  ];
+
   // New Bar Chart Data
   public monthlyData = [400, 550, 300, 700, 600, 450, 800];
   public monthlyLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
