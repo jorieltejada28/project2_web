@@ -8,5 +8,7 @@ import { SidebarService } from '../../services/sidebar.service';
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
- sidebarService = inject(SidebarService);
+  sidebarService = inject(SidebarService);
+
+  
 }
