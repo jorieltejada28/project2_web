@@ -10,5 +10,8 @@ import { SidebarService } from '../../services/sidebar.service';
 export class SidebarComponent {
   sidebarService = inject(SidebarService);
 
-  
+  menuItems = [
+    { label: 'Dashboard', icon: 'dashboard', tooltip: 'Dashboard' },
+    { label: 'Settings', icon: 'settings', tooltip: 'Settings' }
+  ];
 }
