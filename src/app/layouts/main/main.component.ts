@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { SidebarService } from '../../services/sidebar.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-main',
@@ -12,4 +13,5 @@ import { SidebarService } from '../../services/sidebar.service';
 })
 export class MainComponent {
   sidebarService = inject(SidebarService);
+  authService = inject(AuthService);
 }

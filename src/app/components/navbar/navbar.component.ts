@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,6 +11,7 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class NavbarComponent {
   themeService = inject(ThemeService);
+  authService = inject(AuthService);
   themes = [
     'light',
     'dark',
