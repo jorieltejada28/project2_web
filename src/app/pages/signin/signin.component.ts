@@ -32,8 +32,8 @@ export class SigninComponent implements OnInit {
       this.tokenClient = google.accounts.oauth2.initCodeClient({
         client_id: environment.googleClientId,
         scope: 'openid profile email',
-        // This enables FedCM compatibility and helps with the GSI warnings
         ux_mode: 'popup',
+        select_account: true, // Forces the account picker to show
         callback: (res: any) => this.handleTokenResponse(res),
       });
     } else {
@@ -42,28 +42,18 @@ export class SigninComponent implements OnInit {
   }
 
   handleGoogleSignIn() {
-    if (this.tokenClient) {
-      // Now requestCode() will work because this is a CodeClient
-      this.tokenClient.requestCode();
-    } else {
-      console.error('Google Client not initialized');
-    }
+    this.tokenClient.requestCode();
   }
   private handleTokenResponse(response: any): void {
-    if (response.error) {
-      console.error('Google Sign-In error:', response.error);
-      return;
-    }
-
-    this.ngZone.run(() => {
-      // Exchange authorization code for tokens on backend
-      this.authService.googleSignIn(response.code).subscribe({
-        next: (res) => {
-          console.log('Backend Success:', res);
-          this.router.navigate(['/dashboard']);
-        },
-        error: (err) => console.error('Backend Auth Failed:', err)
+    if (response.code) { // The property is .code for initCodeClient
+      this.ngZone.run(() => {
+        this.authService.googleSignIn(response.code).subscribe({
+          next: (res) => {
+            this.router.navigate(['/dashboard']);
+          },
+          error: (err) => console.error('Backend Auth Failed:', err)
+        });
       });
-    });
+    }
   }
 }

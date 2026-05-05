@@ -16,8 +16,9 @@ export class AuthService {
     private router: Router
   ) { }
 
-  googleSignIn(token: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/google`, { token }).pipe(
+  googleSignIn(code: string): Observable<any> {
+    // Change { token } to { code }
+    return this.http.post(`${this.apiUrl}/google`, { code }).pipe(
       tap((res: any) => {
         if (res.token) {
           localStorage.setItem('id_token', res.token);
@@ -27,7 +28,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('token'); 
+    localStorage.removeItem('id_token');
     this.currentUser.set(null);
     this.router.navigate(['/signin']);
   }
