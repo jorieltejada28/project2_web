@@ -1,43 +1,123 @@
 <app-main>
-  <div class="p-4">
-    <!-- items-stretch forces the right side to be the same total height as the chart -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-2 items-stretch">
+  <div class="p-6">
+    <!-- Main Layout: 4 Columns to give the right card a smaller width ratio -->
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 items-start">
 
-      <!-- Left: Line Graph (Large Card) -->
-      <div class="lg:col-span-2">
-        <div class="card bg-base-100 shadow-sm border border-base-200 h-full">
-          <div class="card-body p-6">
-            <h2 class="card-title text-xl font-bold text-base-content mb-4">{{ chartLabel }}</h2>
-            <div class="h-80 w-full">
-              <app-line-chart [data]="statsData" [labels]="statsLabels" [label]="chartLabel" [borderColor]="chartColor">
-              </app-line-chart>
+      <!-- LEFT & MIDDLE SECTION (Existing Charts/Cards) -->
+      <div class="lg:col-span-3 flex flex-col gap-4">
+
+        <!-- TOP ROW: Line Graph & 2 Stat Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 items-stretch">
+          <div class="lg:col-span-2">
+            <div class="card bg-base-100 shadow-sm border border-base-200">
+              <div class="card-body p-6">
+                <h2 class="card-title text-xl font-bold mb-4">{{ chartLabel }}</h2>
+                <div class="h-80 w-full">
+                  <app-line-chart [data]="statsData" [labels]="statsLabels" [label]="chartLabel"
+                    [borderColor]="chartColor"></app-line-chart>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-4">
+            <div class="card bg-base-100 shadow-sm border border-base-200 flex-1">
+              <div class="card-body p-6 justify-center">
+                <span class="text-xs font-semibold text-gray-400 uppercase">Wallet Balance</span>
+                <h3 class="text-4xl font-bold text-secondary mt-1">$0.00</h3>
+              </div>
+            </div>
+            <div class="card bg-base-100 shadow-sm border border-base-200 flex-1">
+              <div class="card-body p-6 justify-center">
+                <span class="text-xs font-semibold text-gray-400 uppercase">Total Savings</span>
+                <h3 class="text-4xl font-bold text-accent mt-1">$1,000.00</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM ROW: Bar Chart & Donut Chart -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
+          <div class="card bg-base-100 shadow-sm border border-base-200">
+            <div class="card-body p-6">
+              <h2 class="card-title text-xl font-bold mb-4">{{ barChartLabel }}</h2>
+              <div class="h-80 w-full">
+                <app-bar-chart [data]="monthlyData" [labels]="monthlyLabels" [label]="barChartLabel"
+                  [barColor]="barColor"></app-bar-chart>
+              </div>
+            </div>
+          </div>
+          <div class="card bg-base-100 shadow-sm border border-base-200">
+            <div class="card-body p-6">
+              <h2 class="card-title text-xl font-bold mb-4">Card Types</h2>
+              <div class="h-80 w-full">
+                <app-donut-chart [data]="donutData" [labels]="donutLabels" [colors]="donutColors"></app-donut-chart>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="flex flex-col gap-2">
+      <!-- RIGHT SECTION: The Long Transaction Card -->
+      <div class="lg:col-span-1 h-full">
+        <div class="card bg-base-100 shadow-sm border border-base-200 h-full min-h-200">
+          <div class="card-body p-0"> <!-- Removed padding from body to let rows go full width if desired -->
+            <div class="p-6 pb-2 flex justify-between items-center">
+              <h2 class="card-title text-lg font-bold tracking-tight">Statement of Account</h2>
+              <span class="text-[10px] font-bold text-primary cursor-pointer hover:underline">VIEW ALL</span>
+            </div>
 
-        <div class="card bg-base-100 shadow-sm border border-base-200 flex-1">
-          <div class="card-body p-6 justify-center">
-            <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Wallet Balance</span>
-            <h3 class="text-4xl font-bold text-secondary mt-1">$0.00</h3>
-            <div class="card-actions justify-end mt-2">
-              <span class="badge badge-secondary badge-outline rounded-full px-4">Empty</span>
+            <div class="divide-y divide-base-200">
+              @for (item of transactions; track $index) {
+              <div class="px-6 py-4 hover:bg-base-200/30 transition-colors">
+                <div class="flex justify-between items-start">
+
+                  <!-- Transaction Info -->
+                  <div class="flex flex-col gap-0.5">
+                    <span class="text-[10px] font-bold text-gray-400">{{ item.date }}</span>
+                    <p class="font-bold text-sm text-base-content tracking-tight uppercase">
+                      {{ item.name }}
+                    </p>
+                    <p class="text-[11px] text-gray-500 font-mono">
+                      {{ item.description }}
+                    </p>
+                  </div>
+
+                  <!-- Amount and Status -->
+                  <div class="text-right flex flex-col items-end gap-1">
+                    <p
+                      [class]="item.amount > 0 ? 'text-accent font-bold text-sm' : 'text-base-content font-bold text-sm'">
+                      {{ item.amount | currency:'USD':'symbol':'1.2-2' }}
+                    </p>
+
+                    <!-- Status Badge -->
+                    <span class="text-[9px] font-bold px-1.5 py-0.5 rounded border" [ngClass]="{
+                'border-success/30 text-success bg-success/5': item.status === 'COMPLETED',
+                'border-warning/30 text-warning bg-warning/5': item.status === 'PENDING'
+              }">
+                      {{ item.status }}
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+              }
+            </div>
+
+            <!-- Bottom Account Selector -->
+            <div class="p-6 mt-auto">
+              <div class="bg-base-200 p-4 rounded-xl flex items-center justify-between border border-base-300">
+                <div>
+                  <p class="text-[10px] font-bold opacity-50 uppercase">Primary Account</p>
+                  <p class="text-sm font-bold">Checking ** 8842</p>
+                </div>
+                <div class="text-right">
+                  <p class="text-sm font-black">$4,250.00</p>
+                  <p class="text-[9px] text-accent font-bold">Available</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
-        <div class="card bg-base-100 shadow-sm border border-base-200 flex-1">
-          <div class="card-body p-6 justify-center">
-            <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Total Savings</span>
-            <h3 class="text-4xl font-bold text-accent mt-1">$1,000.00</h3>
-            <div class="card-actions justify-end mt-2">
-              <span class="badge badge-accent rounded-full px-4 font-bold">+12%</span>
-            </div>
-          </div>
-        </div>
-
       </div>
 
     </div>
