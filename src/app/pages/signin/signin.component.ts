@@ -8,5 +8,8 @@ import { MainComponent } from '../../layouts/main/main.component';
   styleUrl: './signin.component.css',
 })
 export class SigninComponent {
-
+  handleGoogleSignIn() {
+  console.log('Redirecting to Google Auth...');
+  // Logic for Firebase, Auth0, or Supabase goes here
+}
 }
