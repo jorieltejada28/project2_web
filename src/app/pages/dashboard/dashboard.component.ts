@@ -22,13 +22,12 @@ export class DashboardComponent {
   // Existing Line Chart Data
   public statsData = [150, 230, 180, 450, 390, 560, 700];
   public statsLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  public chartLabel = 'User Registrations';
+  public chartLabel = 'Transactions Growth';
   public chartColor = '#d926aa'; // Secondary Pink
 
   public summaryStats = [
-    { label: 'Wallet Balance', value: '$0.00', colorClass: 'text-secondary' },
-    { label: 'Total Savings', value: '$1,000.00', colorClass: 'text-accent' },
-    // You can easily add more here later, like 'Total Debt' or 'Monthly Spend'
+    { label: 'Wallet Balance', value: '₱4,250.00', colorClass: 'text-secondary' },
+    { label: 'Total Savings', value: '₱1,000.00', colorClass: 'text-accent' },
   ];
 
   // New Bar Chart Data
