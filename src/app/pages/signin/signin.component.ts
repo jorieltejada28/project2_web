@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { environment } from '../../../environment/environment';
+import { environment } from '../../../environtment/environment';
 import { MainComponent } from '../../layouts/main/main.component';
 
 declare var google: any;
